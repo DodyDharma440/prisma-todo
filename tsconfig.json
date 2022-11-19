@@ -4,11 +4,16 @@
     "outDir": "dist",
     "strict": true,
     "lib": ["esnext"],
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "baseUrl": "src",
     "paths": {
-      "@controllers/*": ["controllers/*"],
-      "@routes/*": ["routes/*"]
+      "@/controllers/*": ["controllers/*"],
+      "@/routes/*": ["routes/*"],
+      "@/utils/*": ["utils/*"]
     }
-  }
+  },
+  "includes": [
+    "./src/**/*.ts"
+  ]
 }
