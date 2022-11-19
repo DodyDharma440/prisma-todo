@@ -17,6 +17,7 @@
     "ext": "ts, js"
   },
   "scripts": {
+    "predev": "rm -rf dist && yarn",
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""

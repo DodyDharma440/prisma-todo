@@ -6,9 +6,15 @@ import { ITodoInput } from "@/interfaces/todo";
 const prisma = new PrismaClient();
 
 class TodoController {
-  static async getTodo(req: Request, res: Response) {
+  static async getTodos(req: Request, res: Response) {
     const todos = await prisma.todo.findMany();
     res.status(200).json(createSuccessResponse(todos));
+  }
+  static async getTodo(req: Request<{ id: string }>, res: Response) {
+    const todo = await prisma.todo.findFirst({
+      where: { id: req.params.id },
+    });
+    res.status(200).json(createSuccessResponse(todo));
   }
   static async createTodo(req: Request<{}, ITodoInput>, res: Response) {
     const newTodo = await prisma.todo.create({
