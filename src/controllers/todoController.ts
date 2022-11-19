@@ -1,27 +1,23 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import { createSuccessResponse } from "../utils/response";
+import { createSuccessResponse } from "@/utils/response";
+import { ITodoInput } from "@/interfaces/todo";
 
 const prisma = new PrismaClient();
-
-type TodoInput = {
-  title: string;
-  description: string;
-};
 
 class TodoController {
   static async getTodo(req: Request, res: Response) {
     const todos = await prisma.todo.findMany();
     res.status(200).json(createSuccessResponse(todos));
   }
-  static async createTodo(req: Request<{}, TodoInput>, res: Response) {
+  static async createTodo(req: Request<{}, ITodoInput>, res: Response) {
     const newTodo = await prisma.todo.create({
       data: req.body,
     });
     res.status(201).json(createSuccessResponse(newTodo, 201));
   }
   static async updateTodo(
-    req: Request<{ id: string }, TodoInput>,
+    req: Request<{ id: string }, ITodoInput>,
     res: Response
   ) {
     const updatedTodo = await prisma.todo.update({

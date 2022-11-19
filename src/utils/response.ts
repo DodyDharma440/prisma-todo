@@ -6,3 +6,12 @@ export const createSuccessResponse = <T>(data: T, status?: number) => {
     message: "Success",
   };
 };
+
+export const createErrResponse = <E extends Error>(error: E, status: number) => {
+  return {
+    status,
+    error,
+    ok: false,
+    message: "Error"
+  }
+}
