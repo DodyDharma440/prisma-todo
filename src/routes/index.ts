@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
   });
 });
 
-router.use(todoRouter);
 router.use(userRouter);
+router.use(todoRouter);
 
 export default withPrefix(router);

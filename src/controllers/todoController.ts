@@ -19,9 +19,12 @@ class TodoController {
     });
     res.status(200).json(createSuccessResponse(todo));
   }
-  static async createTodo(req: Request<{}, ITodoInput>, res: Response) {
+  static async createTodo(req: WithLoggedUser<{}, ITodoInput>, res: Response) {
     const newTodo = await prisma.todo.create({
-      data: req.body,
+      data: {
+        ...req.body,
+        userId: req.loggedUser?.id,
+      },
     });
     res.status(201).json(createSuccessResponse(newTodo, 201));
   }

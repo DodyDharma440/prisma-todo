@@ -13,7 +13,7 @@ export const authentication = (
 ) => {
   if (req.headers.authorization) {
     const token = req.headers.authorization;
-    req.loggedUser = decodeToken(token);
+    req.loggedUser = decodeToken(token) as any;
     next();
     return;
   }
@@ -25,19 +25,17 @@ export const authorization = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (typeof req.loggedUser !== "string") {
-    if (req.loggedUser) {
-      const todoId = req.params.id;
-      const user = req.loggedUser;
-      const userTodo = await prisma.todo.findUnique({ where: { id: todoId } });
-      const isValid = user.id === userTodo?.userId;
-      if (isValid) {
-        next();
-        return;
-      }
-      res.status(403).json(createErrResponse("Forbidden access", 403));
+  if (req.loggedUser) {
+    const todoId = req.params.id;
+    const user = req.loggedUser;
+    const userTodo = await prisma.todo.findUnique({ where: { id: todoId } });
+    const isValid = user.id === userTodo?.userId;
+    if (isValid) {
+      next();
       return;
     }
-    res.status(401).json(createErrResponse("Unauthenticated", 401));
+    res.status(403).json(createErrResponse("Forbidden access", 403));
+    return;
   }
+  res.status(401).json(createErrResponse("Unauthenticated", 401));
 };
