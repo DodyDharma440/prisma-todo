@@ -7,11 +7,11 @@ export const createSuccessResponse = <T>(data: T, status?: number) => {
   };
 };
 
-export const createErrResponse = <E extends Error>(error: E, status: number) => {
+export const createErrResponse = <E>(error: E, status: number) => {
   return {
     status,
     error,
     ok: false,
-    message: "Error"
-  }
-}
+    message: "Error",
+  };
+};

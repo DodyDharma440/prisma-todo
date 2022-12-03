@@ -1,5 +1,6 @@
 import { Router } from "express";
 import todoRouter from "./todo";
+import userRouter from "./user";
 
 const router = Router();
 
@@ -15,5 +16,6 @@ router.get("/", (req, res) => {
 });
 
 router.use(todoRouter);
+router.use(userRouter);
 
 export default withPrefix(router);

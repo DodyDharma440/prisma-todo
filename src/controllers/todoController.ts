@@ -2,12 +2,15 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { createSuccessResponse } from "@/utils/response";
 import { ITodoInput } from "@/interfaces/todo";
+import { WithLoggedUser } from "@/utils/auth";
 
 const prisma = new PrismaClient();
 
 class TodoController {
-  static async getTodos(req: Request, res: Response) {
-    const todos = await prisma.todo.findMany();
+  static async getTodos(req: WithLoggedUser, res: Response) {
+    const todos = await prisma.todo.findMany({
+      where: { userId: req.loggedUser?.id },
+    });
     res.status(200).json(createSuccessResponse(todos));
   }
   static async getTodo(req: Request<{ id: string }>, res: Response) {
